@@ -1,0 +1,18 @@
+- name: Get block number
+  method: POST
+  url: https://polygon-rpc.com/
+  payload:
+    jsonrpc: "2.0"
+    method: "eth_blockNumber"
+    id: 2
+
+- name: Get block by number
+  method: POST
+  url: https://polygon-rpc.com/
+  payload:
+    jsonrpc: "2.0"
+    method: "eth_getBlockByNumber"
+    params:
+      - "0x134e82a"
+      - true
+    id: 2
