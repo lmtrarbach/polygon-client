@@ -42,3 +42,13 @@ variable "vpc_id" {
   description = "ID of the VPC"
   type        = string
 }
+
+variable "private_subnets" {
+  description = "Subnets"
+  type        = list
+}
+
+variable "security_groups" {
+  description = "security_groups"
+  type        = list
+}

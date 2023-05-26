@@ -75,6 +75,11 @@ class PolygonClient:
                         payload['method'],
                         self.response
                         )
+                    print(
+                        payload['method'],
+                        ":",
+                        self.response
+                        )
             except ConnectionAbortedError as err:
                 logging.critical(
                     'Failure on operation %s execution', 

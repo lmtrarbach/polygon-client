@@ -8,18 +8,21 @@ resource "aws_ecs_cluster" "ecscluster" {
 
 resource "aws_ecs_task_definition" "task_definition" {
   family                   = var.task_name
+  network_mode             = "awsvpc"
+  requires_compatibilities = ["FARGATE"]
+  memory                   = 2048
+  cpu                      = 1024
+  runtime_platform {
+    operating_system_family = "LINUX"
+    cpu_architecture        = "X86_64"
+  }
+
   container_definitions    = <<EOF
   [
     {
       "name": "${var.container_name}",
-      "image": "${var.docker_image}",
-      "portMappings": [
-        {
-          "containerPort": 80,
-          "hostPort": 80,
-          "protocol": "tcp"
-        }
-      ],
+      "image": "${var.docker_image}"
+      ,
       "environment": [
         {
           "name": "ENV",
@@ -36,4 +39,10 @@ resource "aws_ecs_service" "service" {
   cluster         = aws_ecs_cluster.ecscluster.id
   task_definition = aws_ecs_task_definition.task_definition.arn
   desired_count   = var.desired_count
+
+  
+  network_configuration {
+    security_groups = var.security_groups
+    subnets = var.private_subnets
+  }
 }

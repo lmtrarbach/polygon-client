@@ -38,7 +38,9 @@ variable "desired_count" {
   default     = 1
 }
 
-variable "vpc_id" {
-  description = "ID of the VPC"
+variable "vpc_name" {
+  description = "VPC NAME"
   type        = string
+  default     = "custom"
 }
+
