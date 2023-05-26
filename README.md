@@ -83,4 +83,12 @@ terraform plan --var-file tf.vars
 terraform apply --var-file tf.vars
 ```
 
+## TODO before production 
 
+[ ] Set qa and preprod envs
+[ ] Add better code coverage
+[ ] Setup pipelines for automated testing and deploys
+[ ] Setup terraform modules with better granular configuration
+[ ] Create PR workflow
+[ ] Add automated security and code scanners
+[ ] Setup prometheus metrics
