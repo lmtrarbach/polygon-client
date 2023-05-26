@@ -5,12 +5,14 @@ import json
 from web3 import Web3
 from web3.middleware import geth_poa_middleware
 
+
 class PolygonClient:
     """
     Polygon client class
     Loads config from yaml files
     Execute requests to polygon RPC
     """
+
     def __init__(self):
         """
         Class constructor
@@ -30,24 +32,24 @@ class PolygonClient:
                 "config",
                 self.environment,
                 'config.yaml'
-                )
+            )
             logging.info(
-                'Loading config from file: %s', 
+                'Loading config from file: %s',
                 config_file
-                )
+            )
             with open(config_file) as file:
                 self.config = yaml.safe_load(file)
         except TypeError as err:
-                logging.critical(
-                    'TypeError %s', 
-                    err
-                    )
+            logging.critical(
+                'TypeError %s',
+                err
+            )
         except FileNotFoundError as err:
-                logging.critical(
-                    '%s Please, validate your ENV environment variable', 
-                    err,
-                    )
-                
+            logging.critical(
+                '%s Please, validate your ENV environment variable',
+                err,
+            )
+
     def web3_client(self):
         """
         Execute operations based in the yaml config provided
@@ -55,7 +57,7 @@ class PolygonClient:
         for operation in self.config:
             try:
                 logging.info(
-                    'Method found in config file: %s', 
+                    'Method found in config file: %s',
                     operation['payload']['method']
                 )
                 web3 = Web3(Web3.HTTPProvider(operation['url']))
@@ -71,27 +73,28 @@ class PolygonClient:
                     raise AttributeError
                 if self.response:
                     logging.info(
-                        'Method: %s Response:%s', 
+                        'Method: %s Response:%s',
                         payload['method'],
                         self.response
-                        )
+                    )
                     print(
                         payload['method'],
                         ":",
                         self.response
-                        )
+                    )
             except ConnectionAbortedError as err:
                 logging.critical(
-                    'Failure on operation %s execution', 
+                    'Failure on operation %s execution',
                     name
-                    )
+                )
                 exit(1)
             except AttributeError as err:
                 logging.critical(
-                    'Atttribute error %s', 
+                    'Atttribute error %s',
                     err
-                    )
+                )
                 exit(1)
+
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)

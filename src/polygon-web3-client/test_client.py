@@ -1,31 +1,35 @@
 import os
-from  polygon_client import PolygonClient
-import pytest
 import unittest
 from unittest.mock import patch
+from polygon_client import PolygonClient
 
 
 class TestPolygonClient(unittest.TestCase):
 
-    @patch.dict(os.environ, {'ENV': 'testnet'})
+    @classmethod
+    def setUpClass(cls):
+        os.environ['ENV'] = 'testnet'
+
+    def setUp(self):
+        self.client_instance = PolygonClient()
+
     def test_load_yaml_config(self):
-        self.client_instance = PolygonClient()
         self.client_instance.load_yaml_config()
-        self.assertTrue(self.client_instance.config)
-    
-    @patch.dict(os.environ, {'ENV': 'testnet'})
-    def test_polygon_call(self):
-        self.client_instance = PolygonClient()
+        self.assertIsNotNone(self.client_instance.config)
+
+    def test_web3_client(self):
         self.client_instance.load_yaml_config()
         self.client_instance.web3_client()
         self.assertIsNotNone(self.client_instance.response)
-    
-    @patch.dict(os.environ, {'ENV': 'testnet'})
-    def test_polygon_call_no_configs(self):
+
+    def test_web3_client_no_configs(self):
         with self.assertRaises(AttributeError):
-            self.client_instance = PolygonClient()
             self.client_instance.web3_client()
-        
+
+    @classmethod
+    def tearDownClass(cls):
+        del os.environ['ENV']
+
 
 if __name__ == '__main__':
     unittest.main()

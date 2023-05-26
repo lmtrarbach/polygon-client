@@ -52,3 +52,13 @@ variable "security_groups" {
   description = "security_groups"
   type        = list
 }
+
+variable "task_role_arn" {
+  description = "task role arn"
+  type        = string
+}
+
+variable "execution_role" {
+  description = "task role arn"
+  type        = string
+}
